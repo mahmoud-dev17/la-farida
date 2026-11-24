@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>La Farida</title>
+</head>
+<body style="margin:0; background-color:#F0E4D3; font-family: Arial, sans-serif;">
+
+  <!-- Header -->
+  <header style="display:flex; justify-content:space-between; align-items:center; padding:15px 40px; background-color:#1A1A1A;">
+    <h1 style="color:#C9A227; margin:0; font-size:24px;">La Farida</h1>
+    <div style="display:flex; align-items:center; gap:20px;">
+      <nav>
+        <a href="#" style="color:#F0E4D3; margin-left:20px; text-decoration:none;">الرئيسية</a>
+        <a href="#" style="color:#F0E4D3; margin-left:20px; text-decoration:none;">المنتجات</a>
+        <a href="#" style="color:#F0E4D3; margin-left:20px; text-decoration:none;">تواصل معنا</a>
+      </nav>
+      <button onclick="toggleCart()" style="background:none; border:1px solid #C9A227; color:#F0E4D3; padding:8px 16px; border-radius:18px; cursor:pointer;">
+        🛒 السلة <span id="cart-count" style="background-color:#C9A227; color:#1A1A1A; border-radius:50%; padding:2px 7px; font-size:12px; margin-right:5px;">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Cart Panel -->
+  <div id="cart-panel" style="display:none; position:fixed; top:0; left:0; width:300px; height:100%; background-color:#FFFFFF; box-shadow:2px 0 10px rgba(0,0,0,0.2); z-index:100; padding:20px; overflow-y:auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2 style="color:#1A1A1A; margin:0;">سلة المشتريات</h2>
+      <span onclick="toggleCart()" style="cursor:pointer; font-size:22px; color:#1A1A1A;">×</span>
+    </div>
+    <div id="cart-items"></div>
+    <div style="border-top:1px solid #eee; margin-top:15px; padding-top:15px;">
+      <p style="font-weight:bold; color:#1A1A1A;">الإجمالي: <span id="cart-total">0</span> جنيه</p>
+      <button onclick="checkout()" style="width:100%; padding:12px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:20px; cursor:pointer; font-size:15px;">إتمام الطلب عبر واتساب</button>
+    </div>
+  </div>
+
+  <!-- Logo Hero -->
+  <div style="background-color:#F0E4D3; padding:20px; text-align:center;">
+    <img src="images/logo.png" style="max-width:250px;" />
+  </div>
+
+  <!-- Category Tabs -->
+  <section style="padding:40px 40px 10px 40px; background-color:#FFFFFF;">
+    <h2 style="text-align:center; color:#1A1A1A; margin-bottom:25px;">تسوقي حسب التصنيف</h2>
+
+    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:35px;">
+      <button onclick="showCategory('bestsellers')" class="cat-btn" id="btn-bestsellers" style="padding:10px 22px; border-radius:20px; border:1px solid #C9A227; background-color:#1A1A1A; color:#F0E4D3; cursor:pointer; font-size:14px;">الأكثر مبيعًا</button>
+      <button onclick="showCategory('ansialat')" class="cat-btn" id="btn-ansialat" style="padding:10px 22px; border-radius:20px; border:1px solid #C9A227; background-color:#F0E4D3; color:#1A1A1A; cursor:pointer; font-size:14px;">أنسيالات</button>
+      <button onclick="showCategory('asawer')" class="cat-btn" id="btn-asawer" style="padding:10px 22px; border-radius:20px; border:1px solid #C9A227; background-color:#F0E4D3; color:#1A1A1A; cursor:pointer; font-size:14px;">أساور</button>
+      <button onclick="showCategory('hala2')" class="cat-btn" id="btn-hala2" style="padding:10px 22px; border-radius:20px; border:1px solid #C9A227; background-color:#F0E4D3; color:#1A1A1A; cursor:pointer; font-size:14px;">حلق</button>
+      <button onclick="showCategory('khawatem')" class="cat-btn" id="btn-khawatem" style="padding:10px 22px; border-radius:20px; border:1px solid #C9A227; background-color:#F0E4D3; color:#1A1A1A; cursor:pointer; font-size:14px;">خاتم</button>
+      <button onclick="showCategory('handchain')" class="cat-btn" id="btn-handchain" style="padding:10px 22px; border-radius:20px; border:1px solid #C9A227; background-color:#F0E4D3; color:#1A1A1A; cursor:pointer; font-size:14px;">هاند تشين</button>
+      <button onclick="showCategory('salasel')" class="cat-btn" id="btn-salasel" style="padding:10px 22px; border-radius:20px; border:1px solid #C9A227; background-color:#F0E4D3; color:#1A1A1A; cursor:pointer; font-size:14px;">سلاسل</button>
+    </div>
+
+    <!-- ===================== الأكثر مبيعًا ===================== -->
+    <div id="bestsellers" class="category-section" style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; padding-bottom:40px;">
+
+      <div class="product-card" data-name="Droob Stars Series" data-price="210" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/Droob-Stars-Series.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Droob Stars Series</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">210 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-name="Droob Hearts Series" data-price="230" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/Droob-Hearts-Series.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Droob Hearts Series</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">230 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== أنسيالات ===================== -->
+    <div id="ansialat" class="category-section" style="display:none; gap:20px; flex-wrap:wrap; justify-content:center; padding-bottom:40px;">
+
+      <div class="product-card" data-name="minimalist gold chain bracelet" data-price="75" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/minimalist gold chain bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">minimalist gold chain bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">75 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="gold-toned disc-tassel chain bracelet" data-price="70" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-toned disc-tassel chain bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-toned disc-tassel chain bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">70 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="Collection of bracelets" data-price="50" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/Collection of bracelets.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Collection of bracelets</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">50 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- ===================== أساور ===================== -->
+    <div id="asawer" class="category-section" style="display:none; gap:20px; flex-wrap:wrap; justify-content:center; padding-bottom:40px;">
+
+      <div class="product-card" data-name="Bracelet Combo" data-price="165" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/Bracelet Combo.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Bracelet Combo</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">165 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="gold-plated floral cuff bracelet" data-price="95" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-plated floral cuff bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-plated floral cuff bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">95 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="Gold-plated floral cuff bracelet" data-price="95" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-plated floral cuff bracelet (2).jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Gold-plated floral cuff bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">95 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="gold-plated cuff bracelet" data-price="95" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-plated cuff bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-plated cuff bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">95 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+                  <div class="product-card" data-name="gold-plated open cuff bracelet" data-price="65" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-plated open cuff bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-plated open cuff bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">65 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+
+                        <div class="product-card" data-name="Bracelet Combo (2)." data-price="165" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/Bracelet Combo (2).jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Bracelet Combo (2).</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">165 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- ===================== حلق ===================== -->
+    <div id="hala2" class="category-section" style="display:none; gap:20px; flex-wrap:wrap; justify-content:center; padding-bottom:40px;">
+
+      <div class="product-card" data-name="A collection of earrings" data-price="150" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/A collection of earrings.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">A collection of earrings</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">150 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="collection of earrings" data-price="150" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/collection of earrings.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">collection of earrings</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">150 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== خاتم ===================== -->
+    <div id="khawatem" class="category-section" style="display:none; gap:20px; flex-wrap:wrap; justify-content:center; padding-bottom:40px;">
+
+      <div class="product-card" data-name="A set of gold-plated letter-shaped rings" data-price="65" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/A set of gold-plated letter-shaped rings..jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">A set of gold-plated letter-shaped rings</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">65 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="gold-toned, open-band stainless steel rings" data-price="40" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-toned, open-band stainless steel rings.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-toned, open-band stainless steel rings</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">40 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+                  <div class="product-card" data-name="collection of gold-toned rings" data-price="35" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/collection of gold-toned rings.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">collection of gold-toned rings</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">35 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <!-- ===================== هاند تشين ===================== -->
+    <div id="handchain" class="category-section" style="display:none; gap:20px; flex-wrap:wrap; justify-content:center; padding-bottom:40px;">
+
+      <div class="product-card" data-name="gold-tone hand chain bracelet" data-price="125" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-tone hand chain bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-tone hand chain bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">125 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="gold-tone leaf-pattern hand chain bracelet" data-price="135" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-tone leaf-pattern hand chain bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-tone leaf-pattern hand chain bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">135 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="gold-toned hand chain bracelet" data-price="115" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-toned hand chain bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-toned hand chain bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">115 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="silver-toned-hand-chain-bracelet" data-price="120" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/silver-toned-hand-chain-bracelet.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">silver-toned-hand-chain-bracelet</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">120 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== سلاسل ===================== -->
+    <div id="salasel" class="category-section" style="display:none; gap:20px; flex-wrap:wrap; justify-content:center; padding-bottom:40px;">
+
+      <div class="product-card" data-name="A set of chains" data-price="65" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/A set of chains.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">A set of chains</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">65 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="Y-shaped gold lariat necklace " data-price="130" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/Y-shaped gold lariat necklace.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Y-shaped gold lariat necklace </h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">130 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="gold-tone butterfly or clover station necklace " data-price="130" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-tone butterfly or clover station necklace.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-tone butterfly or clover station necklace </h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">130 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+            <div class="product-card" data-name="Chain Combo" data-price="185" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/Chain Combo.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Chain Combo</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">185 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+                  <div class="product-card" data-name="A flower-shaped necklace" data-price="100" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/A flower-shaped necklace.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">A flower-shaped necklace</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">100 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+                  <div class="product-card" data-name="Necklace with an initial" data-price="125" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/Necklace with an initial.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">Necklace with an initial</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">125 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+                        <div class="product-card" data-name="A series titled Palestine" data-price="85" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/A series titled Palestine.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">A series titled Palestine</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">85 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+                        <div class="product-card" data-name="gold-tone station necklace featuring black" data-price="125" style="width:220px; border:1px solid #eee; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <img src="images/gold-tone station necklace featuring black.jpeg" style="width:100%; height:260px; object-fit:cover; display:block;" />
+        <div style="padding:15px; text-align:center;">
+          <h3 style="margin:5px 0; color:#1A1A1A; font-size:16px;">gold-tone station necklace featuring black</h3>
+          <p style="margin:0; font-weight:bold; color:#C9A227;">125 جنيه</p>
+          <button onclick="addToCart(this)" style="margin-top:8px; padding:8px 16px; background-color:#1A1A1A; color:#F0E4D3; border:none; border-radius:15px; cursor:pointer;">أضف للسلة</button>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer style="background-color:#1A1A1A; color:#F0E4D3; text-align:center; padding:20px; font-size:14px;">
+    <p style="margin:0;">© 2026 La Farida - جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    // ====== حط رقم الواتساب بتاعك هنا (بصيغة دولية بدون + أو أصفار زيادة) ======
+    const whatsappNumber = "201096685964";
+
+    let cart = [];
+
+    function showCategory(id) {
+      document.querySelectorAll('.category-section').forEach(function(el) {
+        el.style.display = 'none';
+      });
+      document.getElementById(id).style.display = 'flex';
+
+      document.querySelectorAll('.cat-btn').forEach(function(btn) {
+        btn.style.backgroundColor = '#F0E4D3';
+        btn.style.color = '#1A1A1A';
+      });
+      var activeBtn = document.getElementById('btn-' + id);
+      activeBtn.style.backgroundColor = '#1A1A1A';
+      activeBtn.style.color = '#F0E4D3';
+    }
+
+    function addToCart(button) {
+      const card = button.closest('.product-card');
+      const name = card.getAttribute('data-name');
+      const price = parseFloat(card.getAttribute('data-price')) || 0;
+
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name: name, price: price, qty: 1 });
+      }
+      renderCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartItemsEl = document.getElementById('cart-items');
+      const cartCountEl = document.getElementById('cart-count');
+      const cartTotalEl = document.getElementById('cart-total');
+
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      let count = 0;
+
+      cart.forEach(function(item, index) {
+        total += item.price * item.qty;
+        count += item.qty;
+
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.marginBottom = '10px';
+        row.style.fontSize = '14px';
+        row.innerHTML = `
+          <span style="color:#1A1A1A;">${item.name} (×${item.qty})</span>
+          <span style="color:#C9A227; font-weight:bold;">${item.price * item.qty} ج
+            <span onclick="removeFromCart(${index})" style="color:red; cursor:pointer; margin-right:8px;">×</span>
+          </span>
+        `;
+        cartItemsEl.appendChild(row);
+      });
+
+      cartCountEl.textContent = count;
+      cartTotalEl.textContent = total;
+    }
+
+    function toggleCart() {
+      const panel = document.getElementById('cart-panel');
+      panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert('السلة فارغة، اضيفي منتجات الأول');
+        return;
+      }
+      let message = "مرحبًا، عايزة أطلب من La Farida:%0A%0A";
+      let total = 0;
+      cart.forEach(function(item) {
+        message += `- ${item.name} × ${item.qty} = ${item.price * item.qty} جنيه%0A`;
+        total += item.price * item.qty;
+      });
+      message += `%0Aالإجمالي: ${total} جنيه`;
+
+      window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+    }
+  </script>
+
+</body>
+</html>
